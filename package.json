@@ -1,0 +1,18 @@
+{
+  "name": "kreyntix-motion-studio",
+  "version": "1.0.0",
+  "description": "High-performance scroll-driven kinetic motion landing page based on AI video extraction and WebP frame sequencing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "motion-design",
+    "canvas-scrubbing",
+    "kreyntix-studio",
+    "webp-sequence",
+    "scroll-animation"
+  ],
+  "author": "Kreyntix Studio",
+  "license": "ISC"
+}
