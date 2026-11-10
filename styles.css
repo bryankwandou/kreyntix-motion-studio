@@ -398,39 +398,130 @@ body {
   z-index: 20;
 }
 
-.sequence-nav-buttons {
+/* 25-Video Sequence Drawer & Switcher */
+.hero-sequence-drawer {
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
   display: flex;
-  gap: var(--space-sm);
-  justify-content: flex-start;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.seq-btn {
-  display: inline-flex;
+.drawer-header {
+  display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  background: var(--color-bg-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.drawer-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-accent-cyan);
+}
+
+.drawer-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drawer-nav-btn {
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-  padding: 8px 16px;
+  color: var(--color-text-primary);
+  padding: 4px 10px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
-.seq-btn:hover, .seq-btn.active {
-  background: rgba(0, 240, 255, 0.12);
+.drawer-nav-btn:hover {
+  background: var(--color-accent-cyan);
+  color: #07080c;
   border-color: var(--color-accent-cyan);
-  color: #fff;
 }
 
-.seq-num {
-  color: var(--color-accent-cyan);
+.drawer-counter {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.hero-sequence-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent-cyan) rgba(255, 255, 255, 0.05);
+}
+
+.hero-sequence-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.hero-sequence-strip::-webkit-scrollbar-thumb {
+  background: var(--color-accent-cyan);
+  border-radius: 2px;
+}
+
+.seq-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14, 17, 26, 0.85);
+  border: 1px solid var(--color-border);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.seq-chip:hover {
+  border-color: var(--color-accent-cyan);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.seq-chip.active {
+  border-color: var(--color-accent-cyan);
+  background: rgba(0, 240, 255, 0.16);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+}
+
+.seq-chip-thumb {
+  width: 32px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.seq-chip-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.seq-chip-id {
+  font-family: var(--font-mono);
+  font-size: 9px;
   font-weight: 700;
+  color: var(--color-accent-cyan);
+}
+
+.seq-chip-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
 }
 
 /* Manual Scrubber Bar */
@@ -1311,4 +1402,15 @@ body {
   .section-heading {
     font-size: 26px;
   }
+}
+
+.text-cyan {
+  color: var(--color-accent-cyan) !important;
+}
+
+.stream-file {
+  font-size: 9px;
+  color: var(--color-accent-cyan);
+  opacity: 0.85;
+  letter-spacing: 0.5px;
 }

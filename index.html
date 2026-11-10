@@ -62,6 +62,10 @@
         <!-- Telemetry HUD Header -->
         <div class="hud-top-telemetry">
           <div class="hud-metric">
+            <span class="metric-label">ACTIVE VEO ASSET</span>
+            <span class="metric-value font-mono" id="hud-active-file">gemini_generated_video_0174cf7a.mp4</span>
+          </div>
+          <div class="hud-metric">
             <span class="metric-label">FRAME INDEX</span>
             <span class="metric-value font-mono" id="hud-frame-count">0001 / 0240</span>
           </div>
@@ -108,19 +112,19 @@
 
         <!-- Scrubber and Sequence Selectors -->
         <div class="hud-bottom-controls">
-          <div class="sequence-nav-buttons" role="group" aria-label="Keyframe Sequence Selectors">
-            <button class="seq-btn active" data-target-frame="1" type="button">
-              <span class="seq-num">01</span>
-              <span class="seq-txt">LATENT INIT</span>
-            </button>
-            <button class="seq-btn" data-target-frame="95" type="button">
-              <span class="seq-num">02</span>
-              <span class="seq-txt">TEMPORAL FLOW</span>
-            </button>
-            <button class="seq-btn" data-target-frame="185" type="button">
-              <span class="seq-num">03</span>
-              <span class="seq-txt">CINEMA RENDER</span>
-            </button>
+          <!-- 25-Video Sequence Selector Drawer -->
+          <div class="hero-sequence-drawer">
+            <div class="drawer-header">
+              <span class="drawer-label">ACTIVE VEO SEQUENCE (25 ASSETS FROM COURSE DIRECTORY)</span>
+              <div class="drawer-nav">
+                <button id="hero-prev-btn" class="drawer-nav-btn" type="button" aria-label="Previous Sequence">&lt; PREV</button>
+                <span id="hero-seq-counter" class="drawer-counter font-mono">01 / 25</span>
+                <button id="hero-next-btn" class="drawer-nav-btn" type="button" aria-label="Next Sequence">NEXT &gt;</button>
+              </div>
+            </div>
+            <div class="hero-sequence-strip" id="hero-sequence-strip" role="tablist" aria-label="Select Active Video for Motion Scrubbing">
+              <!-- Populated dynamically with 25 video thumbnail chips by app.js -->
+            </div>
           </div>
 
           <!-- Interactive Manual Scrub Bar -->
@@ -131,7 +135,7 @@
           </div>
 
           <div class="scroll-down-hint">
-            <span class="hint-text">SCROLL DOWN TO PROGRESS MOTION</span>
+            <span class="hint-text">SCROLL OR DRAG SLIDER TO PROGRESS MOTION</span>
             <svg class="hint-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <polyline points="19 12 12 19 5 12"></polyline>
@@ -168,7 +172,7 @@
       </div>
     </section>
 
-    <!-- SECTION 3: AI Cinema Showcase (20 Generative Video Gallery) -->
+    <!-- SECTION 3: AI Cinema Showcase (25 Generative Video Gallery) -->
     <section id="cinema-gallery" class="gallery-section">
       <div class="section-container">
         <div class="section-header-row">
@@ -176,17 +180,18 @@
             <span class="sub-label">CURATED COLLECTION</span>
             <h2 class="section-heading">GENERATIVE CINEMA REEL</h2>
             <p class="section-subtext">
-              20 high-fidelity generative video productions rendered across sci-fi, environmental, kinetic, and narrative visual domains from the Gemini Veo resource collection.
+              25 high-fidelity generative video productions rendered across sci-fi, environmental, kinetic, architectural, and narrative visual domains from the Gemini Veo resource collection.
             </p>
           </div>
 
           <!-- Category Filter Tabs -->
           <div class="filter-cluster" role="tablist" aria-label="Filter Videos by Domain">
-            <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true" type="button">ALL REELS (20)</button>
+            <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true" type="button">ALL REELS (25)</button>
             <button class="filter-tab" data-filter="Sci-Fi &amp; Cybernetics" role="tab" aria-selected="false" type="button">SCI-FI</button>
             <button class="filter-tab" data-filter="Atmospheric &amp; Environment" role="tab" aria-selected="false" type="button">ATMOSPHERE</button>
             <button class="filter-tab" data-filter="Kinetic Dynamics" role="tab" aria-selected="false" type="button">KINETICS</button>
             <button class="filter-tab" data-filter="Character &amp; Narrative" role="tab" aria-selected="false" type="button">NARRATIVE</button>
+            <button class="filter-tab" data-filter="Futuristic Architecture" role="tab" aria-selected="false" type="button">ARCHITECTURE</button>
           </div>
         </div>
 

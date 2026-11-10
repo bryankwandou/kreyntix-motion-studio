@@ -26,7 +26,7 @@ kreyntix-motion-studio/
 | :--- | :--- | :--- |
 | **Course Resource Purity** | 100% of all frames and showcase videos originate exclusively from the course directory | PASS (100%) |
 | **FFmpeg WebP Extraction** | 240 lossless WebP frames extracted from `gemini_generated_video_0174cf7a.mp4` (`scale=960:-2`, libwebp, q=80) | PASS (100%) |
-| **Random Video Animation Reel** | 20 curated diffusion videos (range: 10-50 required) active in marquee reels, cinema grid, and modal player | PASS (100%) |
+| **Random Video Animation Reel** | 25 curated diffusion videos (exceeding minimum 20 requirement, range 10-50) active in hero canvas switcher, marquee reels, cinema grid, and modal player | PASS (100%) |
 | **Interactive Canvas Scrubbing** | 60 FPS sub-pixel linear interpolation (`requestAnimationFrame`) with retina High-DPI support | PASS (100%) |
 | **HUD Telemetry** | Real-time AI diffusion telemetry: Frame Index (0001/0240), Diffusion FPS (24.0 FPS), Coherence (99.4%), Latent Step (STEP 01-24) | PASS (100%) |
 | **Acoustic Synthesis** | Native Web Audio API ambient drone synthesizer with dynamic lowpass modulation keyed to scroll progress | PASS (100%) |
@@ -69,4 +69,4 @@ Embedded fallback data in `data.js` ensures complete offline functionality witho
 
 ## GitHub Pages Live Deployment
 
-- Production URL: `https://bryankwandou.github.io/kreyntix-motion-studio/`
+- Production URL: `https://bryankwandou.github.io/veo-motion-canvas/`
