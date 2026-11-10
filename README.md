@@ -67,7 +67,6 @@ Then navigate in your browser to:
 Open `index.html` directly in modern web browsers (Chrome, Edge, Firefox, Safari).
 Embedded fallback data in `data.js` ensures complete offline functionality without requiring local server CORS overrides.
 
-## GitHub Pages Live Deployments
+## GitHub Pages Live Deployment
 
-- Primary Deployment: `https://bryankwandou.github.io/kreyntix-motion-studio/`
-- Secondary Deployment: `https://bryankwandou.github.io/tugas-kuliah-interactive/`
+- Production URL: `https://bryankwandou.github.io/kreyntix-motion-studio/`
