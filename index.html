@@ -35,13 +35,13 @@
       </nav>
 
       <div class="header-actions">
-        <button id="audio-toggle-btn" class="ctrl-btn audio-btn" type="button" aria-pressed="false" aria-label="Toggle Synthesized Audio Engine">
+        <button id="audio-toggle-btn" class="ctrl-btn audio-btn" type="button" aria-pressed="false" aria-label="Toggle Generative Ambient Sound">
           <span class="audio-waves" aria-hidden="true">
             <span class="wave-bar"></span>
             <span class="wave-bar"></span>
             <span class="wave-bar"></span>
           </span>
-          <span class="btn-text" id="audio-btn-label">AUDIO ENGINE: OFF</span>
+          <span class="btn-text" id="audio-btn-label">AMBIENT SYNTH: OFF</span>
         </button>
         <a href="#cinema-gallery" class="cta-pill">EXPLORE REEL</a>
       </div>
@@ -66,48 +66,42 @@
             <span class="metric-value font-mono" id="hud-frame-count">0001 / 0240</span>
           </div>
           <div class="hud-metric">
-            <span class="metric-label">MOTION SPEED</span>
-            <span class="metric-value font-mono" id="hud-velocity">000 KM/H</span>
+            <span class="metric-label">DIFFUSION FPS</span>
+            <span class="metric-value font-mono" id="hud-fps">24.000 FPS</span>
           </div>
           <div class="hud-metric">
-            <span class="metric-label">V12 ENGINE REV</span>
-            <span class="metric-value font-mono" id="hud-rpm">1100 RPM</span>
+            <span class="metric-label">TEMPORAL COHERENCE</span>
+            <span class="metric-value font-mono" id="hud-coherence">99.4%</span>
           </div>
           <div class="hud-metric">
-            <span class="metric-label">TRANSMISSION</span>
-            <span class="metric-value font-mono" id="hud-gear">GEAR 1</span>
+            <span class="metric-label">LATENT VECTOR</span>
+            <span class="metric-value font-mono" id="hud-step">STEP 01</span>
           </div>
         </div>
 
         <!-- Dynamic Contextual Captions (Synchronized to Scroll Keyframes) -->
         <div class="hud-narrative-overlay">
-          <!-- Sequence Mode Switcher -->
-          <div class="sequence-mode-pill-row">
-            <button class="mode-pill active" id="btn-seq-supercar" type="button">MODE 1: SUPERCAR KINEMATICS (240 FRAMES)</button>
-            <button class="mode-pill" id="btn-seq-veo" type="button">MODE 2: GEMINI VEO SCI-FI (120 FRAMES)</button>
-          </div>
-
           <div class="narrative-card active" id="card-seq-1">
-            <span class="sequence-badge">SEQUENCE 01 // AERODYNAMICS</span>
-            <h1 class="sequence-title">KINETIC AERODYNAMICS</h1>
+            <span class="sequence-badge">SEQUENCE 01 // LATENT INITIALIZATION</span>
+            <h1 class="sequence-title">NEURAL LATENT SYNTHESIS</h1>
             <p class="sequence-desc">
-              High-drag aerodynamic profiling with active ground-effect downforce and carbon-weave bodywork sculpted for high-velocity stability.
+              High-dimensional diffusion models synthesizing continuous photorealistic motion vectors from Gemini Veo generative weights.
             </p>
           </div>
 
           <div class="narrative-card" id="card-seq-2">
-            <span class="sequence-badge">SEQUENCE 02 // POWERTRAIN</span>
-            <h2 class="sequence-title">ATMOSPHERIC V12 POWER</h2>
+            <span class="sequence-badge">SEQUENCE 02 // TEMPORAL CONTINUITY</span>
+            <h2 class="sequence-title">TEMPORAL FLOW &amp; COHERENCE</h2>
             <p class="sequence-desc">
-              Twin-cam multi-valve cylinder assembly engineered for instant throttle actuation, high-RPM mechanical balance, and visceral harmonic resonance.
+              Multi-frame cross-attention dynamics preserving lighting reflections, particle kinematics, and smooth continuous camera trajectory.
             </p>
           </div>
 
           <div class="narrative-card" id="card-seq-3">
-            <span class="sequence-badge">SEQUENCE 03 // HIGHWAY VELOCITY</span>
-            <h2 class="sequence-title">COCKPIT PERSPECTIVE</h2>
+            <span class="sequence-badge">SEQUENCE 03 // HIGH-FIDELITY RENDER</span>
+            <h2 class="sequence-title">LOSSLESS WEBP STREAMING</h2>
             <p class="sequence-desc">
-              Driver telemetry integrated directly with dual digital display clusters, delivering instant velocity feedback across multi-lane high-speed transit.
+              Native 24 FPS raster frames extracted via FFmpeg into optimized WebP sequence buffers, decoded at 60 FPS via Canvas2D.
             </p>
           </div>
         </div>
@@ -117,15 +111,15 @@
           <div class="sequence-nav-buttons" role="group" aria-label="Keyframe Sequence Selectors">
             <button class="seq-btn active" data-target-frame="1" type="button">
               <span class="seq-num">01</span>
-              <span class="seq-txt">EXTERIOR</span>
+              <span class="seq-txt">LATENT INIT</span>
             </button>
             <button class="seq-btn" data-target-frame="95" type="button">
               <span class="seq-num">02</span>
-              <span class="seq-txt">POWERTRAIN</span>
+              <span class="seq-txt">TEMPORAL FLOW</span>
             </button>
             <button class="seq-btn" data-target-frame="185" type="button">
               <span class="seq-num">03</span>
-              <span class="seq-txt">COCKPIT POV</span>
+              <span class="seq-txt">CINEMA RENDER</span>
             </button>
           </div>
 

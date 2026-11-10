@@ -7,56 +7,30 @@
   'use strict';
 
   /* ==========================================================================
-     SEQUENCE CONFIGURATIONS
+     SEQUENCE CONFIGURATION (100% GEMINI VEO COURSE ASSET)
      ========================================================================== */
-  const SEQUENCES = {
-    supercar: {
-      totalFrames: 240,
-      dir: 'frames/',
-      prefix: 'frame_',
-      ext: '.webp',
-      badge: 'SEQUENCE 01 // AERODYNAMICS',
-      titles: [
-        'KINETIC AERODYNAMICS',
-        'ATMOSPHERIC V12 POWER',
-        'COCKPIT PERSPECTIVE'
-      ],
-      descriptions: [
-        'High-drag aerodynamic profiling with active ground-effect downforce and carbon-weave bodywork sculpted for high-velocity stability.',
-        'Twin-cam multi-valve cylinder assembly engineered for instant throttle actuation, high-RPM mechanical balance, and visceral harmonic resonance.',
-        'Driver telemetry integrated directly with dual digital display clusters, delivering instant velocity feedback across multi-lane high-speed transit.'
-      ],
-      maxSpeed: 348,
-      maxRpm: 8400,
-      engineType: 'V12 ATMOSPHERIC'
-    },
-    veo: {
-      totalFrames: 120,
-      dir: 'veo_frames/',
-      prefix: 'frame_',
-      ext: '.webp',
-      badge: 'GEMINI VEO // DIFFUSION SYNTHESIS',
-      titles: [
-        'CYBERNETIC COGNITION',
-        'NEURAL FLUIDITY TRANSIT',
-        'DEEP LAB CONTINUITY'
-      ],
-      descriptions: [
-        'Generative diffusion motion generated via Google Gemini Veo, synthesizing high temporal fidelity sci-fi operational centers.',
-        'Seamless multi-character interactions, dynamic reflections, and ambient depth lighting across photorealistic cybernetic corridors.',
-        'High-resolution generative neural sequence running directly on local WebP frame arrays with zero streaming latency.'
-      ],
-      maxSpeed: 290,
-      maxRpm: 7200,
-      engineType: 'DIFFUSION VEO'
-    }
+  const SEQUENCE_CONFIG = {
+    totalFrames: 240,
+    dir: 'frames/',
+    prefix: 'frame_',
+    ext: '.webp',
+    badge: 'SEQUENCE 01 // LATENT INITIALIZATION',
+    titles: [
+      'NEURAL LATENT SYNTHESIS',
+      'TEMPORAL FLOW & COHERENCE',
+      'LOSSLESS WEBP STREAMING'
+    ],
+    descriptions: [
+      'High-dimensional diffusion models synthesizing continuous photorealistic motion vectors from Gemini Veo generative weights.',
+      'Multi-frame cross-attention dynamics preserving lighting reflections, particle kinematics, and smooth continuous camera trajectory.',
+      'Native 24 FPS raster frames extracted via FFmpeg into optimized WebP sequence buffers, decoded at 60 FPS via Canvas2D.'
+    ]
   };
 
   /* ==========================================================================
      APPLICATION STATE
      ========================================================================== */
   const state = {
-    activeMode: 'supercar',
     currentFrame: 1,
     targetFrame: 1,
     images: new Map(),
@@ -78,17 +52,15 @@
     canvas: document.getElementById('motion-canvas'),
     heroSection: document.getElementById('kinetic-hero'),
     hudFrameCount: document.getElementById('hud-frame-count'),
-    hudVelocity: document.getElementById('hud-velocity'),
-    hudRpm: document.getElementById('hud-rpm'),
-    hudGear: document.getElementById('hud-gear'),
+    hudFps: document.getElementById('hud-fps'),
+    hudCoherence: document.getElementById('hud-coherence'),
+    hudStep: document.getElementById('hud-step'),
     cards: [
       document.getElementById('card-seq-1'),
       document.getElementById('card-seq-2'),
       document.getElementById('card-seq-3')
     ],
     seqButtons: document.querySelectorAll('.seq-btn'),
-    btnSupercar: document.getElementById('btn-seq-supercar'),
-    btnVeo: document.getElementById('btn-seq-veo'),
     manualSlider: document.getElementById('manual-frame-slider'),
     scrubTrackFill: document.getElementById('scrub-track-progress'),
     audioToggleBtn: document.getElementById('audio-toggle-btn'),
@@ -124,64 +96,22 @@
   /* ==========================================================================
      FRAME SEQUENCE PRELOADER & CANVAS ENGINE
      ========================================================================== */
-  function getActiveConfig() {
-    return SEQUENCES[state.activeMode];
-  }
-
-  function getFrameUrl(index, config) {
-    const cfg = config || getActiveConfig();
+  function getFrameUrl(index) {
     const padded = String(index).padStart(4, '0');
-    return `${cfg.dir}${cfg.prefix}${padded}${cfg.ext}`;
+    return `${SEQUENCE_CONFIG.dir}${SEQUENCE_CONFIG.prefix}${padded}${SEQUENCE_CONFIG.ext}`;
   }
 
-  function switchSequenceMode(mode) {
-    if (state.activeMode === mode) return;
-    state.activeMode = mode;
-    state.images.clear();
-    state.loadedCount = 0;
-    state.currentFrame = 1;
-    state.targetFrame = 1;
-
-    const cfg = getActiveConfig();
-    if (dom.manualSlider) {
-      dom.manualSlider.max = cfg.totalFrames;
-      dom.manualSlider.value = 1;
-    }
-
-    if (dom.btnSupercar && dom.btnVeo) {
-      if (mode === 'supercar') {
-        dom.btnSupercar.classList.add('active');
-        dom.btnVeo.classList.remove('active');
-      } else {
-        dom.btnVeo.classList.add('active');
-        dom.btnSupercar.classList.remove('active');
-      }
-    }
-
-    // Update narrative cards content for the active mode
-    dom.cards.forEach((card, idx) => {
-      if (card) {
-        const titleEl = card.querySelector('.sequence-title');
-        const descEl = card.querySelector('.sequence-desc');
-        if (titleEl && cfg.titles[idx]) titleEl.textContent = cfg.titles[idx];
-        if (descEl && cfg.descriptions[idx]) descEl.textContent = cfg.descriptions[idx];
-      }
-    });
-
-    preloadActiveFrames();
-  }
-
-  function preloadActiveFrames() {
-    const cfg = getActiveConfig();
+  function preloadFrames() {
+    const total = SEQUENCE_CONFIG.totalFrames;
     const initialImg = new Image();
-    initialImg.src = getFrameUrl(1, cfg);
+    initialImg.src = getFrameUrl(1);
     initialImg.onload = () => {
       state.images.set(1, initialImg);
       renderFrame(1);
-      // Preload remaining frames
-      for (let i = 2; i <= cfg.totalFrames; i++) {
+      // Preload remaining 2..240 frames
+      for (let i = 2; i <= total; i++) {
         const img = new Image();
-        img.src = getFrameUrl(i, cfg);
+        img.src = getFrameUrl(i);
         img.onload = () => {
           state.images.set(i, img);
           state.loadedCount++;
@@ -199,15 +129,14 @@
   }
 
   function renderFrame(frameIndex) {
-    const cfg = getActiveConfig();
-    const clampedIndex = Math.min(Math.max(Math.round(frameIndex), 1), cfg.totalFrames);
+    const clampedIndex = Math.min(Math.max(Math.round(frameIndex), 1), SEQUENCE_CONFIG.totalFrames);
     const img = state.images.get(clampedIndex);
     if (!img || !img.complete) return;
 
     const cw = dom.canvas.width;
     const ch = dom.canvas.height;
-    const iw = img.naturalWidth || 1280;
-    const ih = img.naturalHeight || 720;
+    const iw = img.naturalWidth || 960;
+    const ih = img.naturalHeight || 540;
 
     // Cover scale calculation
     const hRatio = cw / iw;
@@ -234,37 +163,34 @@
     const scrolled = -rect.top;
     const rawProgress = Math.min(Math.max(scrolled / scrollDistance, 0), 1);
     state.scrollProgress = rawProgress;
-    const cfg = getActiveConfig();
-    state.targetFrame = 1 + rawProgress * (cfg.totalFrames - 1);
+    state.targetFrame = 1 + rawProgress * (SEQUENCE_CONFIG.totalFrames - 1);
   }
 
   function updateTelemetry(frameNum) {
-    const cfg = getActiveConfig();
-    const normalized = (frameNum - 1) / (cfg.totalFrames - 1);
-    const speed = Math.round(normalized * cfg.maxSpeed);
-    const rpm = Math.round(1100 + normalized * (cfg.maxRpm - 1100));
-    const gear = Math.min(Math.max(Math.ceil(normalized * 7), 1), 7);
+    const total = SEQUENCE_CONFIG.totalFrames;
+    const normalized = (frameNum - 1) / (total - 1);
+    const stepNum = Math.min(Math.max(Math.ceil(normalized * 24), 1), 24);
+    const coherencePct = (98.0 + normalized * 1.8).toFixed(1);
 
-    // Update HUD metrics
     if (dom.hudFrameCount) {
       const curStr = String(Math.round(frameNum)).padStart(4, '0');
-      const totStr = String(cfg.totalFrames).padStart(4, '0');
+      const totStr = String(total).padStart(4, '0');
       dom.hudFrameCount.textContent = `${curStr} / ${totStr}`;
     }
-    if (dom.hudVelocity) {
-      dom.hudVelocity.textContent = `${String(speed).padStart(3, '0')} KM/H`;
+    if (dom.hudFps) {
+      dom.hudFps.textContent = '24.000 FPS';
     }
-    if (dom.hudRpm) {
-      dom.hudRpm.textContent = `${rpm} RPM`;
+    if (dom.hudCoherence) {
+      dom.hudCoherence.textContent = `${coherencePct}%`;
     }
-    if (dom.hudGear) {
-      dom.hudGear.textContent = `GEAR ${gear}`;
+    if (dom.hudStep) {
+      dom.hudStep.textContent = `STEP ${String(stepNum).padStart(2, '0')}`;
     }
 
     // Update narrative cards
     let activeSeqIndex = 0;
-    const threshold1 = cfg.totalFrames * 0.33;
-    const threshold2 = cfg.totalFrames * 0.66;
+    const threshold1 = total * 0.33;
+    const threshold2 = total * 0.66;
     if (frameNum >= threshold2) {
       activeSeqIndex = 2;
     } else if (frameNum >= threshold1) {
@@ -299,9 +225,9 @@
       dom.scrubTrackFill.style.width = `${pct}%`;
     }
 
-    // Audio pitch modulation if active
+    // Audio modulation if active
     if (state.audioActive && state.audioNodes) {
-      updateAudioPitch(rpm);
+      updateAudioModulation(normalized);
     }
   }
 
@@ -321,37 +247,29 @@
      ========================================================================== */
   function initHeroControls() {
     if (dom.manualSlider) {
+      dom.manualSlider.max = SEQUENCE_CONFIG.totalFrames;
       dom.manualSlider.addEventListener('input', (e) => {
         const val = parseInt(e.target.value, 10);
         state.targetFrame = val;
-        const cfg = getActiveConfig();
         const scrollDistance = dom.heroSection.offsetHeight - window.innerHeight;
-        const targetScrollY = dom.heroSection.offsetTop + ((val - 1) / (cfg.totalFrames - 1)) * scrollDistance;
+        const targetScrollY = dom.heroSection.offsetTop + ((val - 1) / (SEQUENCE_CONFIG.totalFrames - 1)) * scrollDistance;
         window.scrollTo({ top: targetScrollY, behavior: 'auto' });
       });
     }
 
     dom.seqButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const cfg = getActiveConfig();
-        const ratio = parseFloat(btn.dataset.targetFrame) / 240;
-        const targetFrame = Math.round(1 + ratio * (cfg.totalFrames - 1));
+        const rawTarget = parseInt(btn.dataset.targetFrame, 10) || 1;
+        const clampedTarget = Math.min(Math.max(rawTarget, 1), SEQUENCE_CONFIG.totalFrames);
         const scrollDistance = dom.heroSection.offsetHeight - window.innerHeight;
-        const targetScrollY = dom.heroSection.offsetTop + ((targetFrame - 1) / (cfg.totalFrames - 1)) * scrollDistance;
+        const targetScrollY = dom.heroSection.offsetTop + ((clampedTarget - 1) / (SEQUENCE_CONFIG.totalFrames - 1)) * scrollDistance;
         window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
       });
     });
-
-    if (dom.btnSupercar) {
-      dom.btnSupercar.addEventListener('click', () => switchSequenceMode('supercar'));
-    }
-    if (dom.btnVeo) {
-      dom.btnVeo.addEventListener('click', () => switchSequenceMode('veo'));
-    }
   }
 
   /* ==========================================================================
-     WEB AUDIO SYNTHESIS ENGINE (REV & EXHAUST HARMONICS)
+     WEB AUDIO SYNTHESIS ENGINE (GENERATIVE CINEMATIC AMBIENT SYNTH)
      ========================================================================== */
   function initAudioEngine() {
     if (dom.audioToggleBtn) {
@@ -374,24 +292,24 @@
 
       // Master gain
       const masterGain = state.audioCtx.createGain();
-      masterGain.gain.setValueAtTime(0.18, state.audioCtx.currentTime);
+      masterGain.gain.setValueAtTime(0.12, state.audioCtx.currentTime);
       masterGain.connect(state.audioCtx.destination);
 
-      // Low rumble oscillator
+      // Warm cinematic sub drone oscillator
       const oscLow = state.audioCtx.createOscillator();
-      oscLow.type = 'sawtooth';
-      oscLow.frequency.setValueAtTime(55, state.audioCtx.currentTime);
+      oscLow.type = 'sine';
+      oscLow.frequency.setValueAtTime(65.41, state.audioCtx.currentTime);
 
-      // High harmonic oscillator
+      // Ambient harmonic oscillator
       const oscHigh = state.audioCtx.createOscillator();
       oscHigh.type = 'triangle';
-      oscHigh.frequency.setValueAtTime(110, state.audioCtx.currentTime);
+      oscHigh.frequency.setValueAtTime(130.81, state.audioCtx.currentTime);
 
       // Resonant Lowpass Filter
       const filter = state.audioCtx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(450, state.audioCtx.currentTime);
-      filter.Q.setValueAtTime(3.5, state.audioCtx.currentTime);
+      filter.frequency.setValueAtTime(320, state.audioCtx.currentTime);
+      filter.Q.setValueAtTime(2.0, state.audioCtx.currentTime);
 
       oscLow.connect(filter);
       oscHigh.connect(filter);
@@ -405,7 +323,7 @@
 
       dom.audioToggleBtn.classList.add('active');
       dom.audioToggleBtn.setAttribute('aria-pressed', 'true');
-      dom.audioBtnLabel.textContent = 'AUDIO ENGINE: ACTIVE';
+      dom.audioBtnLabel.textContent = 'AMBIENT SYNTH: ACTIVE';
     } catch (err) {
       console.warn('Web Audio synthesis initialization deferred:', err);
     }
@@ -415,23 +333,26 @@
     if (state.audioNodes && state.audioCtx) {
       state.audioNodes.masterGain.gain.exponentialRampToValueAtTime(0.0001, state.audioCtx.currentTime + 0.3);
       setTimeout(() => {
-        state.audioCtx.close();
-        state.audioCtx = null;
-        state.audioNodes = null;
+        if (state.audioCtx) {
+          state.audioCtx.close();
+          state.audioCtx = null;
+          state.audioNodes = null;
+        }
       }, 350);
     }
     state.audioActive = false;
     dom.audioToggleBtn.classList.remove('active');
     dom.audioToggleBtn.setAttribute('aria-pressed', 'false');
-    dom.audioBtnLabel.textContent = 'AUDIO ENGINE: OFF';
+    dom.audioBtnLabel.textContent = 'AMBIENT SYNTH: OFF';
   }
 
-  function updateAudioPitch(rpm) {
+  function updateAudioModulation(progress) {
     if (!state.audioNodes || !state.audioCtx) return;
-    const baseFreq = 40 + (rpm / 8400) * 160;
-    state.audioNodes.oscLow.frequency.setTargetAtTime(baseFreq, state.audioCtx.currentTime, 0.05);
-    state.audioNodes.oscHigh.frequency.setTargetAtTime(baseFreq * 2, state.audioCtx.currentTime, 0.05);
-    state.audioNodes.filter.frequency.setTargetAtTime(350 + (rpm / 8400) * 1400, state.audioCtx.currentTime, 0.05);
+    const baseFreq = 65.41 + progress * 32.7;
+    const filterCutoff = 280 + progress * 600;
+    state.audioNodes.oscLow.frequency.setTargetAtTime(baseFreq, state.audioCtx.currentTime, 0.08);
+    state.audioNodes.oscHigh.frequency.setTargetAtTime(baseFreq * 2, state.audioCtx.currentTime, 0.08);
+    state.audioNodes.filter.frequency.setTargetAtTime(filterCutoff, state.audioCtx.currentTime, 0.08);
   }
 
   /* ==========================================================================
@@ -755,7 +676,7 @@
      INITIALIZATION LIFECYCLE
      ========================================================================== */
   function init() {
-    preloadActiveFrames();
+    preloadFrames();
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('scroll', onScroll, { passive: true });

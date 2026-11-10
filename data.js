@@ -244,3 +244,4 @@ window.KREYNTIX_DATA = [
     "aspectRatio": "16:9"
   }
 ];
+
